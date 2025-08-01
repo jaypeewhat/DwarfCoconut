@@ -1,27 +1,44 @@
-// FREE Vercel Serverless Function for uploading scans
-const mysql = require('mysql2/promise');
+// 🆓 COMPLETELY FREE LOCAL DATABASE VERSION
+const fs = require('fs');
+const path = require('path');
 const cloudinary = require('cloudinary').v2;
 
-// Configure Cloudinary (FREE tier: 25GB storage, 25GB bandwidth)
+// Configure Cloudinary (FREE: 25GB storage, 25GB bandwidth)
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// FREE Database Options:
-// 1. PlanetScale (FREE tier)
-// 2. Railway PostgreSQL (FREE tier)
-// 3. Supabase (FREE tier)
-const createConnection = async () => {
-  return await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    ssl: { rejectUnauthorized: false }
-  });
-};
+// Local file database (completely free - no DATABASE_URL needed!)
+const DB_FILE = path.join('/tmp', 'coconut-scans.json');
+
+function initDatabase() {
+  if (!fs.existsSync(DB_FILE)) {
+    fs.writeFileSync(DB_FILE, JSON.stringify([]));
+  }
+}
+
+function readScans() {
+  initDatabase();
+  try {
+    const data = fs.readFileSync(DB_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error reading database:', error);
+    return [];
+  }
+}
+
+function writeScans(scans) {
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(scans, null, 2));
+    return true;
+  } catch (error) {
+    console.error('Error writing database:', error);
+    return false;
+  }
+}
 
 export default async function handler(req, res) {
   // Enable CORS

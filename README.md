@@ -21,7 +21,7 @@ A comprehensive web dashboard for monitoring coconut tree health using AI-powere
 ### Backend (Vercel Serverless)
 - **Upload API**: Receives scan data from mobile app
 - **Scans API**: Provides data for dashboard display
-- **Database**: MySQL for storing scan records
+- **Database**: Local JSON files (completely free!)
 - **Image Storage**: Cloudinary for scan image hosting
 
 ### Mobile App Integration
@@ -35,50 +35,24 @@ A comprehensive web dashboard for monitoring coconut tree health using AI-powere
 - Node.js 16+ installed
 - Free accounts on:
   - [Vercel](https://vercel.com) (hosting)
-  - [PlanetScale](https://planetscale.com) or [Railway](https://railway.app) (MySQL database)
   - [Cloudinary](https://cloudinary.com) (image storage)
 
-### 1. Database Setup
+### 1. No Database Setup Needed!
 
-Create a MySQL database and run this schema:
-
-```sql
-CREATE TABLE scans (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    device_id VARCHAR(255) NOT NULL,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    disease_detected VARCHAR(255) NOT NULL,
-    confidence DECIMAL(5,4) NOT NULL,
-    severity_level VARCHAR(255) NOT NULL,
-    recommendation TEXT,
-    image_url VARCHAR(500),
-    location_latitude DECIMAL(10,8),
-    location_longitude DECIMAL(11,8),
-    app_version VARCHAR(50),
-    model_version VARCHAR(50),
-    processing_time_ms INT,
-    INDEX idx_timestamp (timestamp),
-    INDEX idx_device_id (device_id),
-    INDEX idx_disease (disease_detected)
-);
-```
+This version uses local JSON files - completely free with no external database required!
 
 ### 2. Environment Variables
 
 Create a `.env.local` file:
 
 ```env
-# Database
-DATABASE_URL="mysql://username:password@host:port/database"
-
-# Cloudinary
+# Cloudinary (only 3 variables needed!)
 CLOUDINARY_CLOUD_NAME="your_cloud_name"
 CLOUDINARY_API_KEY="your_api_key"
 CLOUDINARY_API_SECRET="your_api_secret"
-
-# Optional: API Security
-API_SECRET_KEY="your_secret_key"
 ```
+
+No DATABASE_URL needed - uses local files!
 
 ### 3. Installation
 
