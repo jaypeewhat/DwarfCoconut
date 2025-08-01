@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "build": {
+    "env": {
+      "DATABASE_URL": "@database_url",
+      "CLOUDINARY_URL": "@cloudinary_url"
+    }
+  }
+}
