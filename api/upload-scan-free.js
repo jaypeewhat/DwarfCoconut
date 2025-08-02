@@ -1,5 +1,5 @@
 // api/upload-scan-free.js - Simple upload without images using Supabase
-// Updated: 2025-08-02 - Fresh deployment trigger
+// Updated: 2025-08-02 - Fresh deployment trigger v2
 import { addScan } from '../lib/supabase-storage.js';
 
 export default async function handler(req, res) {
